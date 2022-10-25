@@ -1,0 +1,11 @@
+##--- NB : do not rewrite the file if it already exists
+## #if($target.outputFileExists() )#cancel("File already exists")#end
+##---
+# https://docs.liquibase.com/concepts/advanced/include.html
+databaseChangeLog:
+- include:
+    # insert here all 'changeset files' in execution order
+    # ( one sql file for each 'changeset' )
+    file: change-001.sql
+    # file: change-002.sql
+    # file: change-003.sql

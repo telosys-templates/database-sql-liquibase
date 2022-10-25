@@ -1,0 +1,59 @@
+#set( $env.database = 'PostgreSQL' )
+--liquibase formatted sql
+
+--changeset telosys:change-001
+
+## ---------------------------------------
+##  For each entity : CREATE TABLE 
+## ---------------------------------------
+#foreach( $entity in $model.allEntites )
+## CREATE TABLE IF NOT EXISTS $entity.sqlTableName
+## use $entity.databaseSchema if necessary
+CREATE TABLE $entity.sqlTableName
+(
+## COLUMNS DEFINITION :
+#foreach( $attribute in $entity.attributes )
+#if( $foreach.hasNext() || $entity.hasPrimaryKey() )
+#set($EOL=",")
+#else
+#set($EOL="")
+#end
+  $attribute.sqlColumnName $attribute.sqlColumnType ${attribute.sqlColumnConstraints}$EOL
+#end
+## PRIMARY KEY DEFINITION :
+#if( $entity.hasPrimaryKey() )
+  PRIMARY KEY ($entity.sqlPrimaryKeyColumnsAsString)
+#end
+);
+
+#end## foreach( $entity )
+
+## ---------------------------------------------------------
+##  For each Foreign Key in each entity : CREATE FOREIGN KEY 
+## ---------------------------------------------------------
+#foreach( $entity in $model.allEntites  )
+## #if ( $entity.hasForeignKeys() ) 
+#set($tableName = $entity.sqlTableName )
+#foreach( $fk in $entity.databaseForeignKeys )
+ALTER TABLE $tableName
+  ADD CONSTRAINT "$fk.name" FOREIGN KEY($fk.sqlOriginColumnsAsString) 
+  REFERENCES ${fk.sqlReferencedTableName}($fk.sqlReferencedColumnsAsString) ;
+CREATE INDEX ON $tableName($fk.sqlOriginColumnsAsString) ;
+#end## foreach( $fk )
+
+## #end## if has FK
+#end## foreach( $entity )
+
+####################################################
+## LIQUIBASE ROLLBACK 
+####################################################
+#foreach( $entity in $model.allEntites  )
+#foreach( $fk in $entity.databaseForeignKeys )
+--rollback ALTER TABLE $entity.sqlTableName DROP CONSTRAINT "${fk.name}" ;
+#end
+#end
+
+#foreach( $entity in $model.allEntites )
+--rollback DROP TABLE $entity.sqlTableName CASCADE ;
+#end
+
