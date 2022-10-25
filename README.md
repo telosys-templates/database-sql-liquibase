@@ -6,7 +6,7 @@ This bundle generates the following Liquibase files:
    The Liquibase configuration file  
    
    
- - "**changelog-master.yml**"  
+ - "**changelog.yml**"  
    The root changelog file with the <include> tag referencing other files
    
    
