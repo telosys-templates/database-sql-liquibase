@@ -7,11 +7,11 @@ This bundle generates the following Liquibase files:
    
    
  - "**changelog.yml**"  
-   The root changelog file with the <include> tag referencing other files
+   The root changelog file referencing SQL files
    
    
  - "**change-001.sql**"  
-   The first changelog file in "plain SQL" format (Liquibase formatted SQL file)
+   The first changelog file in "plain SQL" format (Liquibase formatted SQL file)  
    This file is included in the root changelog.
    
    
