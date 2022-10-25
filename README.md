@@ -1,16 +1,17 @@
 # Liquibase files and SQL scripts for database management
 
-This bundle generates Liquibase files :
+This bundle generates the following Liquibase files:
 
- - "liquibase.properties"  
+ - "**liquibase.properties**"  
    The Liquibase configuration file  
    
    
- - "changelog-master.yml"  
-   The master file for change-log  
+ - "**changelog-master.yml**"  
+   The root changelog file with the <include> tag referencing other files
    
    
- - "change-001.sql"  
-   The first changeset with SQL scripts and rollback   
+ - "**change-001.sql**"  
+   The first changelog file in "plain SQL" format (Liquibase formatted SQL file)
+   This file is included in the root changelog.
    
    
