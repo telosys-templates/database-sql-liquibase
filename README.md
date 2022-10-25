@@ -1,4 +1,4 @@
-# Liquibase files and SQL scripts for database management
+# Liquibase files for database management
 
 This bundle generates the following Liquibase files:
 
